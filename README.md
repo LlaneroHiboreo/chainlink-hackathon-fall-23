@@ -1,3 +1,7 @@
+## Consumer Contracts
+Solution1 -> 0xEA191e44b4576A37Db103f413C27DF5419956B0d
+Solution2 -> 0xA676080452DD28adEcCbcfB582803DFE96f93Ec1
+
 ## Inspiration
 The evolution of smart cities and blockchain technology has given rise to a new era in citizen health management, where security, transparency, and efficiency converge to create a robust ecosystem. Blockchain, as a decentralized and secure ledger, plays a pivotal role in safeguarding sensitive health data, fostering trust, and unlocking the full potential of interconnected smart city infrastructure. The integration of IoT devices in cities generates a wealth of real-time health data. Citizens can have confidence that their sensitive health information remains confidential and unaltered via blockchain integration empowering citizens to actively participate in their healthcare management, contributing to a more patient-centric approach. Furthermore, cloud infrastructures play an important role in the mentioned integration in the following contexts: 
 - **Storage and Scalability** of vast amounts of data from wearables, sensors, and other devices
