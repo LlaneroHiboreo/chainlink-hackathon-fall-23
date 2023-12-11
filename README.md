@@ -1,70 +1,42 @@
-## INFO
-Consumer contract polygon: 0x934619A9b6A1013c71ceBE7aa714812CeA6D8117
-Link Path API: /chainlink/projectid/cancerStatus -> /chainlink/p01/normal
+## Inspiration
+The evolution of smart cities and blockchain technology has given rise to a new era in citizen health management, where security, transparency, and efficiency converge to create a robust ecosystem. Blockchain, as a decentralized and secure ledger, plays a pivotal role in safeguarding sensitive health data, fostering trust, and unlocking the full potential of interconnected smart city infrastructure. The integration of IoT devices in cities generates a wealth of real-time health data. Citizens can have confidence that their sensitive health information remains confidential and unaltered via blockchain integration empowering citizens to actively participate in their healthcare management, contributing to a more patient-centric approach. Furthermore, cloud infrastructures play an important role in the mentioned integration in the following contexts: 
+- **Storage and Scalability** of vast amounts of data from wearables, sensors, and other devices
+- **Integration and Interoperability** of heterogenous data  sources
+- **Accessibility and Availability**
 
-## Foundry
+## What it does
+Two related solutions are provided. 
+Firstly, a user can generate a score calculated from different variables. Some variables come from city humidity,  temperature and UV rays. Other variables come from user data such BMI, calories burned and steps walked. Finally the score is is computed as a weighted sum of different the different variables/factors. The calculated scores are associated to each user. This may be used for insurances to decide wether coverage is applied or amount of tokens that can be spend on health providers.
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+The second solution tries to manage the access to the users health records. Users or patients are able to upload to the blockchain a snippet of their records and allow or decline the access of foreign users to their personal information.  Precisely, what is being uploaded and access controlled is a url link to their records. Users that want to access patient information have to pay fees imposed by the patients.
 
-Foundry consists of:
+## How we built it
+This project uses **Tencent Cloud** services to store, manage and query the information. 
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+Three Tencent MySql tables are created:
+- PatientDataTable host information about the location of the patient records
+- UserDataIoTTable hosts information from the generated data of user such BMI, calories, heart rate...
+- SmartCityTable hosts information about generated data from sensors located in a city.
 
-## Documentation
+The three tables are related between them. PatientDataTable is linked with UserDataIoTTable via UserId (PK) and UserDataIoTTable is linked to SmartCityTable via CityID (Pk).
 
-https://book.getfoundry.sh/
+Once the database is setup, a Tencent Serverless Cloud Function (SCF) written in python is created in order to query the tables and return the desired information via an Api Call. Service Tencent ApiGateway is implemented upon  SCF to provide a layer of security and manageability. 
 
-## Usage
+Finally, two smart contracts contracts are created representing each solution mentioned before. They both use Chainlink functions to connect via the DON to Tencent cloud SCF and obtain the desired information.
 
-### Build
+## Challenges we ran into
+- Get to know Tencent Cloud
+- Find Solidity and Chainlink functions use cases related to health management
 
-```shell
-$ forge build
-```
+## Accomplishments that we're proud of
+- Gained enough experience to be able to set up a basic cloud infrastructure
+- Merge topics such as health, cloud and blockchain into a single solution
 
-### Test
+## What we learned
+- Tencent cloud services
+- Deeper understanding of Chainlink funcitons
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## What's next for TencentLink4Health
+- Restrict and secure cloud services, rights now are pretty open for demonstration purposes
+- Create an actual machine learning model, host it in the cloud and make predictions managing the results in the blockchain.
+- Refactor solidity code and make it more secure
